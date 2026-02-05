@@ -1,0 +1,16 @@
+[project]
+name = "chymera-w0"
+version = "0.1.0"
+description = "Autonomous AI Influencer Infrastructure"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = dependencies = [
+    "pytest>=7.4.0",
+    "httpx>=0.24.0",
+    "pydantic>=2.0.0",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
