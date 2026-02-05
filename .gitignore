@@ -1,0 +1,68 @@
+# UV & Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+__pypackages__/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+.pytest_cache
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Project-specific
+*.log
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+tmp/
+temp/
+
+# OS
+Thumbs.db
+.DS_Store
+.Spotlight-V100
+.Trashes
