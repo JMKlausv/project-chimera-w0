@@ -1,0 +1,85 @@
+# CodeRabbit AI Review Configuration
+# Docs: https://docs.coderabbit.ai/guides/configuration
+
+language: en-US
+
+reviews:
+  # Enable automatic reviews on PRs
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+  # Review profile — assertive catches more issues
+  profile: assertive
+
+  # What the reviewer should focus on
+  path_instructions:
+    - path: "src/**/*.py"
+      instructions: |
+        Review against the specs in specs/. All code must:
+        - Conform to schemas in specs/2-design.md (TrendData, ContentPackage, AgentProfile)
+        - Use error codes from specs/7-error-codes.md (SpecError with correct code + http_status)
+        - Follow skill contracts in specs/4-skills-api.md (input/output schemas, timeouts, retry logic)
+        - Use MCP for external integrations, never direct API calls (specs/_meta.md: MCP-First)
+        - Treat agents as untrusted (Zero Trust model)
+        Flag any hard-coded secrets, missing input validation, or SQL injection vectors.
+
+    - path: "tests/**/*.py"
+      instructions: |
+        Verify tests match the verification spec (specs/3-verification.md):
+        - Unit tests must mock external MCP servers
+        - All assertions must reference a spec requirement
+        - Coverage targets: >=80% unit, >=60% integration
+        Check for flaky patterns (time-dependent assertions, missing fixtures, shared mutable state).
+
+    - path: "specs/**/*.md"
+      instructions: |
+        Spec changes are high-impact. Check for:
+        - Breaking changes to existing schemas (backward compatibility)
+        - Missing error codes for new failure modes
+        - Inconsistencies with other spec files
+        - SLA targets that conflict with existing contracts
+
+    - path: "dockerfile"
+      instructions: |
+        Check for:
+        - Base image pinned to specific version (not :latest)
+        - Python version matches pyproject.toml requires-python (>=3.12)
+        - No secrets or credentials in build layers
+        - Multi-stage build if image size matters
+
+    - path: ".github/**/*.yml"
+      instructions: |
+        Verify CI matches specs/3-verification.md:
+        - Unit tests run on every commit
+        - Integration tests run on PRs
+        - System tests run on merge to main
+        Check for pinned action versions and no secret leaks in logs.
+
+  # Approval rules
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+
+  # Review scope
+  review_status: true
+
+chat:
+  auto_reply: true
+
+# Files to skip entirely
+path_filters:
+  - "!**/*.lock"
+  - "!**/.venv/**"
+  - "!**/node_modules/**"
+  - "!**/__pycache__/**"
+  - "!**/*.pyc"
+
+# Tools for static analysis
+tools:
+  ruff:
+    enabled: true
+  github-checks:
+    enabled: true
